@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GreenDao</string>
+    <string name="hwpush_ability_value">successRateAnalytics</string>
 </resources>

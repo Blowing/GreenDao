@@ -1,16 +1,17 @@
-package com.wujie.greendao;
+package com.wujie.greendao.activity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.wujie.greendao.R;
+import com.wujie.greendao.base.BaseActivity;
 import com.wujie.greendaogen.DaoMaster;
 import com.wujie.greendaogen.DaoSession;
 import com.wujie.greendaogen.Person;
@@ -24,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
     @BindView(R.id.et_name)
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private String mId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
