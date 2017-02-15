@@ -12,14 +12,15 @@
     <permission
         android:name="com.wujie.greendao.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.wujie.greendao.permission.MIPUSH_RECEIVE" />
 
-    <!--华为推送需要使用的权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- 华为推送需要使用的权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".cons.GreenDaoApplication"
@@ -33,6 +34,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.wujie.greendao.activity.NotificationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="customscheme"
+                    android:host="com.huawei.pushtext"
+                    android:path="/notify_detail"/>
             </intent-filter>
         </activity>
 
@@ -59,67 +70,63 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.xiaomi.push.service.receivers.PingReceiver"
             android:enabled="false">
-
             <intent-filter>
                 <action android:name="com.xiaomi.push.PING_TIMER" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".broadcast.XiaomiMessageReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
-
         </receiver>
 
-        <!--华为推送-->
-        <meta-data android:name="com.huawei.hms.client.appid"
-            android:value="10807670">
-        </meta-data>
+        <!-- 华为推送 -->
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="10807670"></meta-data>
 
-        <!--<provider
+        <!--
+            <provider
             android:authorities="com.wujie.greendao.hms.update.provider"
             android:name="com.huawei.hms.update.provider.UpdateProvider"
             android:exported="false"
-            android:grantUriPermissions="true"/>-->
+            android:grantUriPermissions="true"/>
+        -->
 
-        <receiver android:name="com.wujie.greendao.broadcast.HuaweiMessageReceiver">
+        <receiver android:name=".broadcast.HuaweiMessageReceiver">
             <intent-filter>
-                <action android:name="com.huawei.android.push.intent.REGISTRATION"/>
-                <action android:name="com.huawei.android.push.intent.RECEIVE"/>
-                <action android:name="com.huawei.android.push.intent.CLICK"/>
-                <action android:name="com.huawei.intent.action.PUSH_STATE"/>
+                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+                <action android:name="com.huawei.android.push.intent.CLICK" />
+                <action android:name="com.huawei.intent.action.PUSH_STATE" />
             </intent-filter>
 
             <meta-data
                 android:name="CS_cloud_ability"
-                android:value="@string/hwpush_ability_value"/>
+                android:value="@string/hwpush_ability_value" />
+        </receiver>
+        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
+            <intent-filter>
+                <action android:name="com.huawei.intent.action.PUSH" />
+            </intent-filter>
         </receiver>
 
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
-                <intent-filter>
-                    <action android:name="com.huawei.intent.action.PUSH"/>
-                </intent-filter>
-        </receiver>
 
     </application>
-
 
 </manifest>

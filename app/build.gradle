@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
+    defaultConfig {
+        applicationId "com.wujie.greendao"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     signingConfigs {
         debug {
             keyAlias 'wujie'
@@ -10,14 +19,10 @@ android {
             storePassword 'wujie283315'
         }
     }
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
-    defaultConfig {
-        applicationId "com.wujie.greendao"
-        minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+
+
+    dexOptions {
+        javaMaxHeapSize "6g"
     }
     buildTypes {
         release {
@@ -35,14 +40,15 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'org.greenrobot:greendao-generator:3.2.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile files('libs/MiPush_SDK_Client_3_2_2.jar')
     compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
-    compile 'com.android.support:support-v4:24.1.1'
+    //compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 repositories { flatDir { dirs 'aars'}}

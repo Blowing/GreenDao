@@ -2,20 +2,20 @@ package com.wujie.greendao.cons;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
-import android.app.Application;
 import android.content.Context;
 import android.os.Process;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.*;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
 
 /**
  * Created by wujie on 2017/2/8.
  */
-public class GreenDaoApplication extends Application{
+public class GreenDaoApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {

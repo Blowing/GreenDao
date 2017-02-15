@@ -1,9 +1,12 @@
 package com.wujie.greendao.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.EditText;
@@ -12,6 +15,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.wujie.greendao.R;
 import com.wujie.greendao.base.BaseActivity;
+import com.wujie.greendao.util.Utils;
 import com.wujie.greendaogen.DaoMaster;
 import com.wujie.greendaogen.DaoSession;
 import com.wujie.greendaogen.Person;
@@ -65,6 +69,17 @@ public class MainActivity extends BaseActivity {
         int[] to = {android.R.id.text1, android.R.id.text2};
         mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to , Adapter.NO_SELECTION);
         listView.setAdapter(mCursorAdapter);
+        getSupportFragmentManager().beginTransaction().commitNowAllowingStateLoss();
+        Utils.isMIUI();
+        Utils.isEMUI();
+        Utils.isFlyme();
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("customscheme://com.huawei.pushtext/notify_detail?"));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);
+        Log.i("intent", intentUri);
+
+
     }
 
     @OnClick({R.id.btn_add, R.id.btn_delete, R.id.btn_search, R.id.btn_update})

@@ -35,6 +35,11 @@ public class HuaweiMessageReceiver extends PushReceiver{
     }
 
     @Override
+    public void onPushMsg(Context context, byte[] bytes, String s) {
+        super.onPushMsg(context, bytes, s);
+    }
+
+    @Override
     public void onEvent(Context context, Event event, Bundle bundle) {
         if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
             int notifyId = bundle.getInt(BOUND_KEY.pushNotifyId, 0);
