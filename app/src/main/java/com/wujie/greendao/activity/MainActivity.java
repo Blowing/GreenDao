@@ -20,6 +20,7 @@ import com.wujie.greendaogen.DaoMaster;
 import com.wujie.greendaogen.DaoSession;
 import com.wujie.greendaogen.Person;
 import com.wujie.greendaogen.PersonDao;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -40,6 +41,8 @@ public class MainActivity extends BaseActivity {
     EditText etId;
     @BindView(R.id.list_view)
     ListView listView;
+    @BindView(R.id.et_token)
+    EditText etToken;
 
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
@@ -67,7 +70,7 @@ public class MainActivity extends BaseActivity {
         cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
         String[] from = {PersonDao.Properties.Name.columnName, PersonDao.Properties.Sex.columnName};
         int[] to = {android.R.id.text1, android.R.id.text2};
-        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to , Adapter.NO_SELECTION);
+        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to, Adapter.NO_SELECTION);
         listView.setAdapter(mCursorAdapter);
         getSupportFragmentManager().beginTransaction().commitNowAllowingStateLoss();
         Utils.isMIUI();
@@ -78,11 +81,12 @@ public class MainActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);
         Log.i("intent", intentUri);
+        Log.i("xiaomi", "RegisterId+" + MiPushClient.getRegId(this));
 
 
     }
 
-    @OnClick({R.id.btn_add, R.id.btn_delete, R.id.btn_search, R.id.btn_update})
+    @OnClick({R.id.btn_add, R.id.btn_delete, R.id.btn_search, R.id.btn_update,R.id.btn_xiaomi, R.id.btn_huawei})
     public void onClick(View view) {
         mName = etName.getText().toString().trim();
         mSex = etSex.getText().toString().trim();
@@ -99,6 +103,12 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_update:
                 update();
+                break;
+            case R.id.btn_xiaomi:
+                etToken.setText(MiPushClient.getRegId(this));
+                break;
+            case R.id.btn_huawei:
+                etToken.setText(mApp.HuaweiToken);
                 break;
         }
         cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
@@ -126,4 +136,6 @@ public class MainActivity extends BaseActivity {
         Person person = new Person(null, mName, mSex);
         mPersonDao.insert(person);
     }
+
+
 }

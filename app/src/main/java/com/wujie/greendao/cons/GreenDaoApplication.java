@@ -17,9 +17,18 @@ import java.util.List;
  */
 public class GreenDaoApplication extends MultiDexApplication {
 
+    private static GreenDaoApplication mInstance;
+
+    public String HuaweiToken = "";
+
+    public static GreenDaoApplication getApplication() {
+        return mInstance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
         if(shouldInit()) {
             MiPushClient.registerPush(this,Constants.APP_ID, Constants.APP_KEY);
         }

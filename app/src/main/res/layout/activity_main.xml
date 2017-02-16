@@ -59,6 +59,32 @@
 
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/et_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="设备的token"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_xiaomi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="获取小米token"/>
+        <Button
+            android:id="@+id/btn_huawei"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="获取华为token"/>
+
+    </LinearLayout>
+
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

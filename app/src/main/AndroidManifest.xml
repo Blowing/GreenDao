@@ -98,17 +98,15 @@
         <!-- 华为推送 -->
         <meta-data
             android:name="com.huawei.hms.client.appid"
-            android:value="10807670"></meta-data>
+            android:value="10807670"/>
 
-        <!--
-            <provider
-            android:authorities="com.wujie.greendao.hms.update.provider"
+        <provider
             android:name="com.huawei.hms.update.provider.UpdateProvider"
+            android:authorities="com.wujie.greendao.hms.update.provider"
             android:exported="false"
-            android:grantUriPermissions="true"/>
-        -->
+            android:grantUriPermissions="true" />
 
-        <receiver android:name=".broadcast.HuaweiMessageReceiver">
+        <receiver android:name="com.wujie.greendao.broadcast.HuaweiMessageReceiver">
             <intent-filter>
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />
                 <action android:name="com.huawei.android.push.intent.RECEIVE" />
