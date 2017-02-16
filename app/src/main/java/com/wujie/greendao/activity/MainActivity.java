@@ -1,5 +1,6 @@
 package com.wujie.greendao.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,10 +26,15 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity {
 
@@ -56,11 +62,15 @@ public class MainActivity extends BaseActivity {
     private String mSex;
     private String mId;
 
+    private Subscription  subscription;
+    private Context context;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        context = this;
 
         mHelper = new DaoMaster.DevOpenHelper(this, "test-db", null);
         db = mHelper.getWritableDatabase();
@@ -81,6 +91,9 @@ public class MainActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);
         Log.i("intent", intentUri);
+        Intent intent1 = new Intent(context, NotificationActivity.class);
+        String uriString = intent1.toUri(Intent.URI_INTENT_SCHEME);
+        Log.i("intent1", uriString);
         Log.i("xiaomi", "RegisterId+" + MiPushClient.getRegId(this));
 
 
@@ -108,7 +121,17 @@ public class MainActivity extends BaseActivity {
                 etToken.setText(MiPushClient.getRegId(this));
                 break;
             case R.id.btn_huawei:
-                etToken.setText(mApp.HuaweiToken);
+                subscription = Observable.interval(500, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<Long>() {
+                            @Override
+                            public void call(Long aLong) {
+                                if(!mApp.HuaweiToken.equals("")) {
+                                    etToken.setText(mApp.HuaweiToken);
+                                    subscription.unsubscribe();
+                                }
+                            }
+                        });
                 break;
         }
         cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);

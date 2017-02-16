@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.wujie.greendao.cons.GreenDaoApplication;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -31,6 +32,7 @@ public class XiaomiMessageReceiver extends PushMessageReceiver {
     @Override
     public void onReceivePassThroughMessage(Context context, MiPushMessage miPushMessage) {
         mMessage = miPushMessage.getContent();
+        GreenDaoApplication.getApplication().Extra = mMessage;
         Log.d("PassThroughMessage", mMessage);
         if (!TextUtils.isEmpty(miPushMessage.getTopic())) {
             mTopic = miPushMessage.getTopic();
@@ -44,6 +46,7 @@ public class XiaomiMessageReceiver extends PushMessageReceiver {
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage miPushMessage) {
         mMessage = miPushMessage.getContent();
+        GreenDaoApplication.getApplication().Extra = mMessage;
         Log.d("MessageClicked", mMessage);
         if (!TextUtils.isEmpty(miPushMessage.getTopic())) {
             mTopic = miPushMessage.getTopic();
@@ -57,7 +60,8 @@ public class XiaomiMessageReceiver extends PushMessageReceiver {
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage miPushMessage) {
         mMessage = miPushMessage.getContent();
-        Log.d("MessageArrived", mMessage);
+        GreenDaoApplication.getApplication().Extra = mMessage;
+        Log.e("MessageArrived", mMessage);
         if (!TextUtils.isEmpty(miPushMessage.getTopic())) {
             mTopic = miPushMessage.getTopic();
         } else if (!TextUtils.isEmpty(miPushMessage.getAlias())) {
@@ -70,6 +74,7 @@ public class XiaomiMessageReceiver extends PushMessageReceiver {
     @Override
     public void onReceiveMessage(Context context, MiPushMessage miPushMessage) {
         mMessage = miPushMessage.getContent();
+        GreenDaoApplication.getApplication().Extra = mMessage;
         Log.d("onReceiveMessage", mMessage);
     }
 

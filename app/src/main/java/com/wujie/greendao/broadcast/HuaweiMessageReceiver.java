@@ -51,7 +51,7 @@ public class HuaweiMessageReceiver extends PushReceiver{
                 manager.cancel(notifyId);
             }
             //String content = "receive extented notification message:" + bundle.getString(BOUND_KEY.pushMsgKey);
-
+            GreenDaoApplication.getApplication().Extra = bundle.getString(BOUND_KEY.pushMsgKey);
             Log.d(BaseActivity.TAG, "dedededededede");
         }
         super.onEvent(context, event, bundle);

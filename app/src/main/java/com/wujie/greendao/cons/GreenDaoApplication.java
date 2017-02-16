@@ -21,6 +21,8 @@ public class GreenDaoApplication extends MultiDexApplication {
 
     public String HuaweiToken = "";
 
+    public String Extra = "";
+
     public static GreenDaoApplication getApplication() {
         return mInstance;
     }
