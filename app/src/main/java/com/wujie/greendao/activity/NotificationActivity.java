@@ -32,7 +32,7 @@ public class NotificationActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        s = Observable.interval(50, TimeUnit.MILLISECONDS)
+        s = Observable.interval(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
                     @Override
@@ -44,6 +44,10 @@ public class NotificationActivity extends BaseActivity {
                         } else if (aLong.intValue()> 40) {
                             s.unsubscribe();
                         }
+//                        } else {
+//                            SharedPreferences sp = getSharedPreferences("Extra", Context.MODE_PRIVATE);
+//                            tvExtra.setText(sp.getString("extra", "wujie"));
+//                        }
                     }
                 });
 

@@ -1,8 +1,10 @@
 package com.wujie.greendao.util;
 
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 /**
@@ -66,5 +68,24 @@ public class Utils {
         } catch (final Exception e) {
             return false;
         }
+    }
+
+    /**
+     * 获取SD上的存储路径
+     *
+     * @return path
+     */
+
+    public static String getSdPath() {
+        String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file1 = Environment.getExternalStorageDirectory();
+        if (!file1.canRead() || !file1.canWrite()) {
+            File file2 = new File("/storage/sdcard1");
+            if (file2.canRead() && file2.canWrite()) {
+                sdPath = "/storage/sdcard1";
+            }
+        }
+
+        return sdPath;
     }
 }

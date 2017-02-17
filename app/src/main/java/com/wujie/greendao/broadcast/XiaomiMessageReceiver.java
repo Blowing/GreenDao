@@ -1,10 +1,15 @@
 package com.wujie.greendao.broadcast;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.wujie.greendao.activity.NotificationActivity;
 import com.wujie.greendao.cons.GreenDaoApplication;
+import com.wujie.greendao.util.HistoryAccount;
+import com.wujie.greendao.util.StorageUtils;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -47,7 +52,14 @@ public class XiaomiMessageReceiver extends PushMessageReceiver {
     public void onNotificationMessageClicked(Context context, MiPushMessage miPushMessage) {
         mMessage = miPushMessage.getContent();
         GreenDaoApplication.getApplication().Extra = mMessage;
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
         Log.d("MessageClicked", mMessage);
+        SharedPreferences sharedPreferences =context.getSharedPreferences("Extra", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("extra", mMessage);
+        editor.apply();
         if (!TextUtils.isEmpty(miPushMessage.getTopic())) {
             mTopic = miPushMessage.getTopic();
         } else if (!TextUtils.isEmpty(miPushMessage.getAlias())) {
@@ -61,7 +73,12 @@ public class XiaomiMessageReceiver extends PushMessageReceiver {
     public void onNotificationMessageArrived(Context context, MiPushMessage miPushMessage) {
         mMessage = miPushMessage.getContent();
         GreenDaoApplication.getApplication().Extra = mMessage;
+        SharedPreferences sharedPreferences =context.getSharedPreferences("Extra", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("extra", mMessage);
+        editor.apply();
         Log.e("MessageArrived", mMessage);
+        StorageUtils.WriteObject("message.txt", new HistoryAccount("wujie", mMessage));
         if (!TextUtils.isEmpty(miPushMessage.getTopic())) {
             mTopic = miPushMessage.getTopic();
         } else if (!TextUtils.isEmpty(miPushMessage.getAlias())) {

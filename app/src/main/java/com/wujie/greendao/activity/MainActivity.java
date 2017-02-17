@@ -87,7 +87,8 @@ public class MainActivity extends BaseActivity {
         Utils.isEMUI();
         Utils.isFlyme();
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("customscheme://com.huawei.pushtext/notify_detail?"));
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("customscheme://com.huawei.pushtext/notify_detail?"));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String intentUri = intent.toUri(Intent.URI_INTENT_SCHEME);
         Log.i("intent", intentUri);
