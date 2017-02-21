@@ -99,12 +99,16 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.btn_add, R.id.btn_delete, R.id.btn_search, R.id.btn_update,R.id.btn_xiaomi, R.id.btn_huawei})
+    @OnClick({R.id.btn_add, R.id.btn_delete, R.id.btn_search, R.id.btn_update,R.id.btn_xiaomi, R.id.btn_huawei,
+            R.id.btn_backup})
     public void onClick(View view) {
         mName = etName.getText().toString().trim();
         mSex = etSex.getText().toString().trim();
         mId = etId.getText().toString().trim();
         switch (view.getId()) {
+            case R.id.btn_backup:
+                startActivity(new Intent(this, PictureActivity.class));
+                break;
             case R.id.btn_add:
                 add();
                 break;

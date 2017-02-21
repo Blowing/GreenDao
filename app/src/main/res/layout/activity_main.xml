@@ -83,6 +83,11 @@
             android:text="获取华为token"/>
 
     </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_backup"
+        android:text="相册备份"/>
 
 
     <ListView
