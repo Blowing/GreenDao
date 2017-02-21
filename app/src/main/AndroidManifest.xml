@@ -21,7 +21,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- nohttp -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <application
         android:name=".cons.GreenDaoApplication"
         android:allowBackup="true"
@@ -36,14 +42,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.wujie.greendao.activity.NotificationActivity">
+        <activity android:name=".activity.NotificationActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="customscheme"
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
                     android:host="com.huawei.pushtext"
-                    android:path="/notify_detail"/>
+                    android:path="/notify_detail"
+                    android:scheme="customscheme" />
             </intent-filter>
         </activity>
 
@@ -98,7 +106,7 @@
         <!-- 华为推送 -->
         <meta-data
             android:name="com.huawei.hms.client.appid"
-            android:value="10807670"/>
+            android:value="10807670" />
 
         <provider
             android:name="com.huawei.hms.update.provider.UpdateProvider"
@@ -106,7 +114,7 @@
             android:exported="false"
             android:grantUriPermissions="true" />
 
-        <receiver android:name="com.wujie.greendao.broadcast.HuaweiMessageReceiver">
+        <receiver android:name=".broadcast.HuaweiMessageReceiver">
             <intent-filter>
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />
                 <action android:name="com.huawei.android.push.intent.RECEIVE" />
@@ -124,7 +132,7 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".activity.PictureActivity"></activity>
     </application>
 
 </manifest>

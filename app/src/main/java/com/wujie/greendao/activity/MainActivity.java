@@ -97,7 +97,6 @@ public class MainActivity extends BaseActivity {
         Log.i("intent1", uriString);
         Log.i("xiaomi", "RegisterId+" + MiPushClient.getRegId(this));
 
-
     }
 
     @OnClick({R.id.btn_add, R.id.btn_delete, R.id.btn_search, R.id.btn_update,R.id.btn_xiaomi, R.id.btn_huawei})

@@ -9,6 +9,11 @@ import android.util.Log;
 
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.MiPushClient;
+import com.yanzhenjie.nohttp.Logger;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
+import com.yanzhenjie.nohttp.cache.DBCacheStore;
+import com.yanzhenjie.nohttp.cookie.DBCookieStore;
 
 import java.util.List;
 
@@ -30,6 +35,11 @@ public class GreenDaoApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        NoHttp.initialize(this, new NoHttp.Config().setCacheStore(new DBCacheStore(this).setEnable(false))
+                .setCookieStore(new DBCookieStore(this).setEnable(false))
+                .setNetworkExecutor(new OkHttpNetworkExecutor()));
+        Logger.setDebug(true);
+        Logger.setTag("nohttp");
         mInstance = this;
         if(shouldInit()) {
             MiPushClient.registerPush(this,Constants.APP_ID, Constants.APP_KEY);

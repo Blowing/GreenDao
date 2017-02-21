@@ -50,6 +50,9 @@ dependencies {
     //compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.yanzhenjie.nohttp:nohttp:1.1.1'
+    compile 'com.yanzhenjie.nohttp:okhttp:1.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
 }
 
 repositories { flatDir { dirs 'aars'}}
