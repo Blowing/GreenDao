@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,17 +31,9 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
 
     private Context mContext;
     private List<AlbumModel> mContentList;
-
-    public void setOnCheckListener(AlbumDirAdapter.onCheckListener onCheckListener) {
-        this.onCheckListener = onCheckListener;
-    }
-
-    private onCheckListener onCheckListener;
+    private SparseBooleanArray mCheckStates=new SparseBooleanArray();
 
 
-    public interface onCheckListener {
-        void onCheckChanged(CompoundButton buttonView, boolean isChecked);
-    }
     public AlbumDirAdapter(Context mContext, List<AlbumModel> mContentList) {
         this.mContext = mContext;
         this.mContentList = mContentList;
@@ -55,15 +48,10 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
     }
 
     @Override
-    public void onBindViewHolder(AlbumHolder holder, int position) {
+    public void onBindViewHolder(AlbumHolder holder, final int position) {
         AlbumModel albumModel = mContentList.get(position);
         Log.i("onBindViewHolder", "mContentList.get(0).getmSrc()");
-//        ImageCompress.CompressOptions options = new ImageCompress.CompressOptions();
-//        options.maxWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-//        options.maxHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
-//        options.url = fileImage.get(i);
-//        ImageView pictureView = addPictureImageViewList.get(i);
-//        pictureView.setImageBitmap(compress.compressFromUrl(mContext, options));
+
         BitmapFactory.Options op = new BitmapFactory.Options();
         op.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(albumModel.getmSrc(),op);
@@ -73,12 +61,20 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
         holder.pictureIv.setImageBitmap(BitmapFactory.decodeFile(albumModel.getmSrc(), op));
         holder.pictureNameTv.setText(albumModel.getmAblumName());
         holder.pictureSizeTv.setText(albumModel.getmPictureSize()+"张照片"+albumModel.getmVideoSize()+"个视频");
+        holder.checkbox.setTag(position);
         holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                onCheckListener.onCheckChanged(buttonView, isChecked);
+                Log.d("onCheckedChanged", position + "--" +isChecked);
+                int pos = (int) buttonView.getTag();
+                if(isChecked) {
+                    mCheckStates.put(pos, true);
+                } else {
+                    mCheckStates.delete(pos);
+                }
             }
         });
+        holder.checkbox.setChecked(mCheckStates.get(position, false));
 
 
     }

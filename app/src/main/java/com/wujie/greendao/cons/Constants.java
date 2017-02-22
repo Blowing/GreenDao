@@ -8,4 +8,6 @@ public final class Constants {
     public static final String APP_ID = "2882303761517546251";
     public static final String APP_KEY = "5991754636251";
     public static final String TAG = "com.wujie.greendao";
+
+    public static String USB_IP = "";
 }

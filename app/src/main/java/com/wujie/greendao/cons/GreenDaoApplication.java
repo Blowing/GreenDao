@@ -7,6 +7,7 @@ import android.os.Process;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.wujie.greendao.util.WifiClient;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.yanzhenjie.nohttp.Logger;
@@ -60,6 +61,7 @@ public class GreenDaoApplication extends MultiDexApplication {
                 Log.d(Constants.TAG, s, throwable);
             }
         };
+        Constants.USB_IP = "http://" + WifiClient.getGayWay(this) + ":8180";
 
     }
 

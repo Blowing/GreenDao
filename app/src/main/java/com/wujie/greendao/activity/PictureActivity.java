@@ -1,10 +1,13 @@
 package com.wujie.greendao.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,8 +15,11 @@ import com.wujie.greendao.R;
 import com.wujie.greendao.adapter.AlbumDirAdapter;
 import com.wujie.greendao.base.BaseActivity;
 import com.wujie.greendao.model.AlbumModel;
+import com.wujie.greendao.nohttp.NohttpRequestManager;
 import com.wujie.greendao.util.Utils;
 import com.wujie.greendao.view.DividerItemListDecoration;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +46,8 @@ public class PictureActivity extends BaseActivity {
     @BindView(R.id.picture_rv)
     RecyclerView pictureRv;
 
+
+
     private AlbumDirAdapter mAlbumDirAdapter ;
     private List<AlbumModel> albumModelList = new ArrayList<AlbumModel>();
 
@@ -52,18 +60,11 @@ public class PictureActivity extends BaseActivity {
         setContentView(R.layout.activity_picture);
         ButterKnife.bind(this);
         initRecyclerView();
-
     }
 
     private void initRecyclerView() {
         pictureRv.setLayoutManager(new LinearLayoutManager(this));
         pictureRv.addItemDecoration(new DividerItemListDecoration(this, DividerItemListDecoration.VERTICAL_LIST, 100));
-//        mAlbumDirAdapter.setOnCheckListener(new AlbumDirAdapter.onCheckListener() {
-//            @Override
-//            public void onCheckChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//            }
-//        });
         mAlbumDirAdapter = new AlbumDirAdapter(mApp, albumModelList);
         pictureRv.setAdapter(mAlbumDirAdapter);
         Observable.combineLatest(Utils.getSystemPhotoList(this), Utils.getSystemVideoList(this),
@@ -104,7 +105,49 @@ public class PictureActivity extends BaseActivity {
             case R.id.cancel_btn:
                 break;
             case R.id.ok_btn:
+                showLoginDialog();
                 break;
         }
     }
+
+    private void showLoginDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText loginEt = new EditText(this);
+        builder.setView(loginEt, 20,0,20,0).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                NohttpRequestManager.requestCookie(loginEt.getText().toString().trim(), callBack);
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setTitle("请输入路由器的登录密码").show();
+    }
+
+    private OnResponseListener<String> callBack = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            Log.d("nohttp", response.toString());
+        }
+
+        @Override
+        public void onFailed(int what, Response<String> response) {
+
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
+
+
 }

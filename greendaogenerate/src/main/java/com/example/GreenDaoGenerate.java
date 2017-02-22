@@ -25,10 +25,11 @@ public class GreenDaoGenerate {
         Entity backup = schema.addEntity("Backup");
         backup.addIdProperty().primaryKey();
         backup.addStringProperty("filename").notNull();
-        backup.addStringProperty("dsrc").notNull();
+        backup.addStringProperty("d_src").notNull();
         backup.addStringProperty("src").notNull();
         backup.addDoubleProperty("size").notNull();
         backup.addDateProperty("date");
         backup.addIntProperty("progress");
+        backup.addBooleanProperty("up_status");
     }
 }
