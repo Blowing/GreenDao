@@ -17,6 +17,7 @@ import android.widget.SimpleCursorAdapter;
 import com.wujie.greendao.R;
 import com.wujie.greendao.base.BaseActivity;
 import com.wujie.greendao.util.Utils;
+import com.wujie.greendaogen.BackupDao;
 import com.wujie.greendaogen.DaoMaster;
 import com.wujie.greendaogen.DaoSession;
 import com.wujie.greendaogen.Person;
@@ -56,6 +57,8 @@ public class MainActivity extends BaseActivity {
     private DaoMaster mDaoMaster;
     private PersonDao mPersonDao;
     private Cursor cursor;
+
+    private BackupDao mBackupDao;
     private SimpleCursorAdapter mCursorAdapter;
 
     private String mName;
@@ -72,13 +75,14 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
 
-        mHelper = new DaoMaster.DevOpenHelper(this, "test-db", null);
+        mHelper = new DaoMaster.DevOpenHelper(this, "backup-db", null);
         db = mHelper.getWritableDatabase();
         mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
         mPersonDao = mDaoSession.getPersonDao();
-        cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
-        String[] from = {PersonDao.Properties.Name.columnName, PersonDao.Properties.Sex.columnName};
+        mBackupDao = mDaoSession.getBackupDao();
+        cursor = db.query(mBackupDao.getTablename(), mBackupDao.getAllColumns(), null, null, null, null, null);
+        String[] from = {BackupDao.Properties.Src.columnName, BackupDao.Properties.Up_status.columnName};
         int[] to = {android.R.id.text1, android.R.id.text2};
         mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to, Adapter.NO_SELECTION);
         listView.setAdapter(mCursorAdapter);

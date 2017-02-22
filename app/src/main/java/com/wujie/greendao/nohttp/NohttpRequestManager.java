@@ -22,8 +22,16 @@ public class NohttpRequestManager {
 
     }
 
-    public static Request<String> requestUpload( String url, String target, Binary binary, String Cookie, OnResponseListener<String> callback) {
+    public static Request<String> requestUpload(int what, Binary binary, OnResponseListener<String> callback) {
 
+        String [] s = Constants.USB_STOKE.split(";");
+        String url = "";
+        if(s.length == 2){
+            url = Constants.USB_IP+"/upload/;"+s[1];
+        } else {
+            url = Constants.USB_IP+"/upload/;stok=";
+        }
+        String target = "/usb/sda1/Camera";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
 
         request.addHeader("aaaaa", request.getContentType());
@@ -31,8 +39,7 @@ public class NohttpRequestManager {
         request.add("file", binary);
         request.add("target", target);
         request.add("filename", binary.getFileName());
-        NoHttp.getRequestQueueInstance().add(0, request,callback);
-        //CallServer.getRequestInstance().add(context, 0, request, callback, true, false);
+        NoHttp.getRequestQueueInstance().add(what, request,callback);
         return request;
     }
 }

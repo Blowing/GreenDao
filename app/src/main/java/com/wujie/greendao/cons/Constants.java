@@ -10,4 +10,5 @@ public final class Constants {
     public static final String TAG = "com.wujie.greendao";
 
     public static String USB_IP = "";
+    public static String USB_STOKE = "";
 }

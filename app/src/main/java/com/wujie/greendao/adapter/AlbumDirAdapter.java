@@ -30,7 +30,17 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
 
 
     private Context mContext;
+
+    public List<AlbumModel> getmContentList() {
+        return mContentList;
+    }
+
     private List<AlbumModel> mContentList;
+
+    public SparseBooleanArray getmCheckStates() {
+        return mCheckStates;
+    }
+
     private SparseBooleanArray mCheckStates=new SparseBooleanArray();
 
 
@@ -67,6 +77,10 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d("onCheckedChanged", position + "--" +isChecked);
                 int pos = (int) buttonView.getTag();
+                if(mCheckStates.get(pos, false) == isChecked) {
+                    Log.d("onCheckedChanged", position + "--" +isChecked + "--" + mCheckStates.get(pos, false));
+                    return;
+                }
                 if(isChecked) {
                     mCheckStates.put(pos, true);
                 } else {

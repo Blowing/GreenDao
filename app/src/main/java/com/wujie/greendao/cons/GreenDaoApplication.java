@@ -61,7 +61,7 @@ public class GreenDaoApplication extends MultiDexApplication {
                 Log.d(Constants.TAG, s, throwable);
             }
         };
-        Constants.USB_IP = "http://" + WifiClient.getGayWay(this) + ":8180";
+        Constants.USB_IP = "http://" + WifiClient.getGayWay(this) + ":80" ;
 
     }
 
