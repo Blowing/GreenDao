@@ -132,7 +132,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.PictureActivity"></activity>
+        <activity android:name=".activity.PictureActivity" />
+        <activity android:name=".activity.AlbumActivity"></activity>
     </application>
 
 </manifest>

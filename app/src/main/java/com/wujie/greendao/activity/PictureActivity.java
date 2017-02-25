@@ -1,6 +1,7 @@
 package com.wujie.greendao.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -121,6 +122,17 @@ public class PictureActivity extends BaseActivity {
                        // pictureRv.setAdapter(new AlbumDirAdapter(mApp, albumModelList));
                     }
                 });
+
+        mAlbumDirAdapter.setOnItemClickListener(new AlbumDirAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                AlbumModel albumModel = mAlbumDirAdapter.getmContentList().get(position);
+                List<String> albumAllList = mPictureMap.get(new File(albumModel.getmSrc()).getParentFile().getAbsolutePath());
+                mApp.setAlbumList(albumAllList);
+                startActivity(new Intent(getApplicationContext(), AlbumActivity.class));
+
+            }
+        });
 
     }
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -81,11 +80,11 @@ public class MainActivity extends BaseActivity {
         mDaoSession = mDaoMaster.newSession();
         mPersonDao = mDaoSession.getPersonDao();
         mBackupDao = mDaoSession.getBackupDao();
-        cursor = db.query(mBackupDao.getTablename(), mBackupDao.getAllColumns(), null, null, null, null, null);
-        String[] from = {BackupDao.Properties.Src.columnName, BackupDao.Properties.Up_status.columnName};
-        int[] to = {android.R.id.text1, android.R.id.text2};
-        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to, Adapter.NO_SELECTION);
-        listView.setAdapter(mCursorAdapter);
+//        cursor = db.query(mBackupDao.getTablename(), mBackupDao.getAllColumns(), null, null, null, null, null);
+//        String[] from = {BackupDao.Properties.Src.columnName, BackupDao.Properties.Up_status.columnName};
+//        int[] to = {android.R.id.text1, android.R.id.text2};
+//        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to, Adapter.NO_SELECTION);
+//        listView.setAdapter(mCursorAdapter);
         getSupportFragmentManager().beginTransaction().commitNowAllowingStateLoss();
         Utils.isMIUI();
         Utils.isEMUI();
@@ -142,8 +141,8 @@ public class MainActivity extends BaseActivity {
                         });
                 break;
         }
-        cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
-        mCursorAdapter.swapCursor(cursor);
+//        cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
+//        mCursorAdapter.swapCursor(cursor);
     }
 
     private void update() {

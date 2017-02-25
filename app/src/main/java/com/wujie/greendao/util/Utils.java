@@ -322,7 +322,7 @@ public class Utils {
                     File file = new File(path);
                     if (file.exists())
                     {
-                        Log.i("path", path);
+                        Log.i("path", Uri.fromFile(file).toString());
                         String parentName = file.getParentFile().getAbsolutePath();
 
                         if(mGroupMap.containsKey(parentName)) {

@@ -12,11 +12,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.wujie.greendao.R;
 import com.wujie.greendao.model.AlbumModel;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,6 +47,17 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
 
     private SparseBooleanArray mCheckStates=new SparseBooleanArray();
 
+    public void setOnItemClickListener(AlbumDirAdapter.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public OnItemClickListener onItemClickListener;
+
+
+    public interface  OnItemClickListener  {
+        void onClick(View view, int position);
+    }
+
 
     public AlbumDirAdapter(Context mContext, List<AlbumModel> mContentList) {
         this.mContext = mContext;
@@ -61,7 +76,29 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
     public void onBindViewHolder(AlbumHolder holder, final int position) {
         AlbumModel albumModel = mContentList.get(position);
         Log.i("onBindViewHolder", "mContentList.get(0).getmSrc()");
-        holder.pictureIv.setImageURI(Uri.fromFile(new File(albumModel.getmSrc())));
+
+//        Uri uri = "file:///mnt/sdcard/MyApp/myfile.jpg";
+//        int width = 50, height = 50;
+//        ImageRequest request = ImageRequestBuilder
+//                .newBuilderWithSource(uri)
+//                .setResizeOptions(new ResizeOptions(width, height))
+//                .build();
+//        PipelineDraweeController controller = Fresco.newDraweeControllerBuilder() .setOldController(mDraweeView.getController()) .setImageRequest(request)
+//                .build();
+        String uri = "file:///"+albumModel.getmSrc();
+        Log.e("URI", position+uri);
+
+        int width = 100, height = 100;
+        ImageRequest request = ImageRequestBuilder
+                .newBuilderWithSource(Uri.parse(uri))
+                .setResizeOptions(new ResizeOptions(width, height))
+                .build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(request)
+                .build();
+        holder.pictureIv.setController(controller);
+       // holder.pictureIv.setController(controller);
+        //holder.pictureIv.setImageURI(Uri.parse(uri));
 //        BitmapFactory.Options op = new BitmapFactory.Options();
 //        op.inJustDecodeBounds = true;
 //        BitmapFactory.decodeFile(albumModel.getmSrc(),op);
@@ -89,6 +126,12 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
             }
         });
         holder.checkbox.setChecked(mCheckStates.get(position, false));
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onClick(v, position);
+            }
+        });
 
 
     }
@@ -115,8 +158,11 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
         TextView pictureNameTv;
         @BindView(R.id.picture_size_tv)
         TextView pictureSizeTv;
+
+        View mView;
         public AlbumHolder(View itemView) {
             super(itemView);
+            this.mView = itemView;
             ButterKnife.bind(this,itemView);
         }
     }

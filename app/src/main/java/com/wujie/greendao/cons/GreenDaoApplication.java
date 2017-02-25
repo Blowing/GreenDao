@@ -17,6 +17,7 @@ import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 import com.yanzhenjie.nohttp.cache.DBCacheStore;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,16 @@ import java.util.List;
 public class GreenDaoApplication extends MultiDexApplication {
 
     private static GreenDaoApplication mInstance;
+
+    public List<String> getAlbumList() {
+        return albumList;
+    }
+
+    public void setAlbumList(List<String> albumList) {
+        this.albumList = albumList;
+    }
+
+    private List<String> albumList = new ArrayList<>();
 
     public String HuaweiToken = "";
 
