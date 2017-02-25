@@ -1,7 +1,7 @@
 package com.wujie.greendao.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wujie.greendao.R;
 import com.wujie.greendao.model.AlbumModel;
-import com.wujie.greendao.util.Utils;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,14 +61,14 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
     public void onBindViewHolder(AlbumHolder holder, final int position) {
         AlbumModel albumModel = mContentList.get(position);
         Log.i("onBindViewHolder", "mContentList.get(0).getmSrc()");
-
-        BitmapFactory.Options op = new BitmapFactory.Options();
-        op.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(albumModel.getmSrc(),op);
-
-        op.inSampleSize = Utils.calculateInSampleSize(op, 100, 100);
-        op.inJustDecodeBounds =false;
-        holder.pictureIv.setImageBitmap(BitmapFactory.decodeFile(albumModel.getmSrc(), op));
+        holder.pictureIv.setImageURI(Uri.fromFile(new File(albumModel.getmSrc())));
+//        BitmapFactory.Options op = new BitmapFactory.Options();
+//        op.inJustDecodeBounds = true;
+//        BitmapFactory.decodeFile(albumModel.getmSrc(),op);
+//
+//        op.inSampleSize = Utils.calculateInSampleSize(op, 100, 100);
+//        op.inJustDecodeBounds =false;
+//        holder.pictureIv.setImageBitmap(BitmapFactory.decodeFile(albumModel.getmSrc(), op));
         holder.pictureNameTv.setText(albumModel.getmAblumName());
         holder.pictureSizeTv.setText(albumModel.getmPictureSize()+"张照片"+albumModel.getmVideoSize()+"个视频");
         holder.checkbox.setTag(position);
@@ -108,7 +108,7 @@ public class AlbumDirAdapter extends RecyclerView.Adapter<AlbumDirAdapter.AlbumH
     public class AlbumHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.picture_iv)
-        ImageView pictureIv;
+        SimpleDraweeView pictureIv;
         @BindView(R.id.checkbox)
         CheckBox checkbox;
         @BindView(R.id.picture_name_tv)

@@ -7,6 +7,7 @@ import android.os.Process;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.wujie.greendao.util.WifiClient;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -36,6 +37,7 @@ public class GreenDaoApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fresco.initialize(this);
         NoHttp.initialize(this, new NoHttp.Config().setCacheStore(new DBCacheStore(this).setEnable(false))
                 .setCookieStore(new DBCookieStore(this).setEnable(false))
                 .setNetworkExecutor(new OkHttpNetworkExecutor()));
