@@ -18,6 +18,7 @@ public class NohttpRequestManager {
         Request<String> request = NoHttp.createStringRequest(Constants.USB_IP + "/cgi-bin/luci/admin/datamanager/stok", RequestMethod.POST);
         request.add("username", "admin");
         request.add("password", password);
+        //request.setMultipartFormEnable(true);
         NoHttp.getRequestQueueInstance().add(0, request, callback);
 
     }
