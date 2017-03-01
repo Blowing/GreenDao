@@ -25,6 +25,7 @@ public class PersonDao extends AbstractDao<Person, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Sex = new Property(2, String.class, "sex", false, "_sex");
+        public final static Property Height = new Property(3, String.class, "height", false, "HEIGHT");
     }
 
 
@@ -42,7 +43,8 @@ public class PersonDao extends AbstractDao<Person, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"PERSON\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"NAME\" TEXT NOT NULL ," + // 1: name
-                "\"_sex\" TEXT);"); // 2: sex
+                "\"_sex\" TEXT," + // 2: sex
+                "\"HEIGHT\" TEXT);"); // 3: height
     }
 
     /** Drops the underlying database table. */
@@ -65,6 +67,11 @@ public class PersonDao extends AbstractDao<Person, Long> {
         if (sex != null) {
             stmt.bindString(3, sex);
         }
+ 
+        String height = entity.getHeight();
+        if (height != null) {
+            stmt.bindString(4, height);
+        }
     }
 
     @Override
@@ -81,6 +88,11 @@ public class PersonDao extends AbstractDao<Person, Long> {
         if (sex != null) {
             stmt.bindString(3, sex);
         }
+ 
+        String height = entity.getHeight();
+        if (height != null) {
+            stmt.bindString(4, height);
+        }
     }
 
     @Override
@@ -93,7 +105,8 @@ public class PersonDao extends AbstractDao<Person, Long> {
         Person entity = new Person( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // name
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // sex
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // sex
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // height
         );
         return entity;
     }
@@ -103,6 +116,7 @@ public class PersonDao extends AbstractDao<Person, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.getString(offset + 1));
         entity.setSex(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setHeight(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override

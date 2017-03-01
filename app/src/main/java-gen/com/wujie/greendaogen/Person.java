@@ -18,6 +18,7 @@ public class Person {
 
     @Property(nameInDb = "_sex")
     private String sex;
+    private String height;
 
     @Generated
     public Person() {
@@ -28,10 +29,11 @@ public class Person {
     }
 
     @Generated
-    public Person(Long id, String name, String sex) {
+    public Person(Long id, String name, String sex, String height) {
         this.id = id;
         this.name = name;
         this.sex = sex;
+        this.height = height;
     }
 
     public Long getId() {
@@ -58,6 +60,14 @@ public class Person {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
     }
 
 }

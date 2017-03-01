@@ -9,16 +9,20 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wujie.greendao.R;
 import com.wujie.greendao.base.BaseActivity;
 import com.wujie.greendao.util.Utils;
 import com.wujie.greendaogen.BackupDao;
 import com.wujie.greendaogen.DaoMaster;
 import com.wujie.greendaogen.DaoSession;
+import com.wujie.greendaogen.MigrationHelper;
+import com.wujie.greendaogen.MySQLiteOpenHelper;
 import com.wujie.greendaogen.Person;
 import com.wujie.greendaogen.PersonDao;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -50,6 +54,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.et_token)
     EditText etToken;
 
+    @BindView(R.id.simple_view)
+    SimpleDraweeView simpleDraweeView;
+
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
     private DaoSession mDaoSession;
@@ -63,6 +70,7 @@ public class MainActivity extends BaseActivity {
     private String mName;
     private String mSex;
     private String mId;
+    private String mHeight = "1.81";
 
     private Subscription  subscription;
     private Context context;
@@ -73,18 +81,21 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         context = this;
-
-        mHelper = new DaoMaster.DevOpenHelper(this, "backup-db", null);
+        MigrationHelper.DEBUG = true;
+        MySQLiteOpenHelper mHelper = new MySQLiteOpenHelper(this, "test.db",
+                null);
+        mDaoMaster = new DaoMaster(mHelper.getWritableDatabase());
+//        mHelper = new DaoMaster.DevOpenHelper(this, "backup-db", null);
         db = mHelper.getWritableDatabase();
-        mDaoMaster = new DaoMaster(db);
+//        mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
         mPersonDao = mDaoSession.getPersonDao();
         mBackupDao = mDaoSession.getBackupDao();
-//        cursor = db.query(mBackupDao.getTablename(), mBackupDao.getAllColumns(), null, null, null, null, null);
-//        String[] from = {BackupDao.Properties.Src.columnName, BackupDao.Properties.Up_status.columnName};
-//        int[] to = {android.R.id.text1, android.R.id.text2};
-//        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to, Adapter.NO_SELECTION);
-//        listView.setAdapter(mCursorAdapter);
+        cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
+        String[] from = {PersonDao.Properties.Id.columnName, PersonDao.Properties.Name.columnName};
+        int[] to = {android.R.id.text1, android.R.id.text2};
+        mCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to, Adapter.NO_SELECTION);
+        listView.setAdapter(mCursorAdapter);
         getSupportFragmentManager().beginTransaction().commitNowAllowingStateLoss();
         Utils.isMIUI();
         Utils.isEMUI();
@@ -99,6 +110,7 @@ public class MainActivity extends BaseActivity {
         String uriString = intent1.toUri(Intent.URI_INTENT_SCHEME);
         Log.i("intent1", uriString);
         Log.i("xiaomi", "RegisterId+" + MiPushClient.getRegId(this));
+        simpleDraweeView.setImageURI(Uri.parse("http://192.168.10.84/test/picture/v1.png"));
 
     }
 
@@ -141,12 +153,12 @@ public class MainActivity extends BaseActivity {
                         });
                 break;
         }
-//        cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
-//        mCursorAdapter.swapCursor(cursor);
+        cursor = db.query(mPersonDao.getTablename(), mPersonDao.getAllColumns(), null, null, null, null, null);
+        mCursorAdapter.swapCursor(cursor);
     }
 
     private void update() {
-        mPersonDao.update(new Person(Long.valueOf(mId), mName, mSex));
+        mPersonDao.update(new Person(Long.valueOf(mId), mName, mSex, mHeight));
 
     }
 
@@ -163,7 +175,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void add() {
-        Person person = new Person(null, mName, mSex);
+        Person person = new Person(null, mName, mSex, mHeight);
         mPersonDao.insert(person);
     }
 

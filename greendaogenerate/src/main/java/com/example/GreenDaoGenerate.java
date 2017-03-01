@@ -8,7 +8,7 @@ import org.greenrobot.greendao.generator.Schema;
 public class GreenDaoGenerate {
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(1, "com.wujie.greendaogen");
+        Schema schema = new Schema(2, "com.wujie.greendaogen");
         addPerson(schema);
         addBackup(schema);
         new DaoGenerator().generateAll(schema, "../GreenDao/app/src/main/java-gen");
@@ -19,6 +19,7 @@ public class GreenDaoGenerate {
         person.addIdProperty().primaryKey();
         person.addStringProperty("name").notNull();
         person.addStringProperty("sex").columnName("_sex");
+        person.addStringProperty("height");
     }
 
     private static void addBackup(Schema schema) {
